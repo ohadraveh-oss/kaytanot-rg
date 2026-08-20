@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: kaytanot-gefen
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: DATABASE_URL   # כתובת מסד הנתונים מ-Neon
+        sync: false
+      - key: ADMIN_CODE     # קוד המנהל שלכם
+        sync: false

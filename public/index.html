@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>דירוג קייטנות · בית עמנואל רמת גן</title>
+<style>
+  :root{
+    --bg:#fdf8ef; --card:#fff; --ink:#26211c; --muted:#7c7268;
+    --line:#ece2d4; --brand:#e07a3f; --brand-dark:#c25f27;
+    --green:#2f9e5f; --yellow:#e0a93f; --red:#d4523e; --blue:#3f7fe0;
+    --shadow:0 2px 8px rgba(60,40,20,.07), 0 12px 28px rgba(60,40,20,.06);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Segoe UI",Rubik,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+  a{color:var(--brand-dark)}
+  button{font-family:inherit;font-size:1rem;cursor:pointer;border:0;border-radius:10px;padding:.6rem 1.1rem;
+         background:var(--brand);color:#fff;font-weight:600;transition:.15s}
+  button:hover{background:var(--brand-dark)}
+  button.ghost{background:transparent;color:var(--muted);border:1px solid var(--line)}
+  button.ghost:hover{background:#f5ede1;color:var(--ink)}
+  button.small{padding:.3rem .7rem;font-size:.85rem}
+  input,textarea,select{font-family:inherit;font-size:1rem;padding:.6rem .8rem;border:1px solid var(--line);
+         border-radius:10px;background:#fff;width:100%;color:var(--ink)}
+  input:focus,textarea:focus{outline:2px solid #f0c9a8;border-color:var(--brand)}
+  header{background:linear-gradient(120deg,#e07a3f,#e0a93f);color:#fff;padding:1.1rem 1.4rem;
+         display:flex;align-items:center;gap:1rem;flex-wrap:wrap;box-shadow:var(--shadow)}
+  header h1{font-size:1.25rem;margin:0;font-weight:700}
+  header .spacer{flex:1}
+  header .who{font-size:.92rem;opacity:.95}
+  header button{background:rgba(255,255,255,.2)}
+  header button:hover{background:rgba(255,255,255,.34)}
+  main{max-width:920px;margin:0 auto;padding:1.4rem}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:1.1rem 1.2rem;box-shadow:var(--shadow)}
+  .grid{display:grid;gap:.9rem}
+  @media(min-width:640px){.grid.two{grid-template-columns:1fr 1fr}}
+  .camp{display:flex;gap:1rem;align-items:center;cursor:pointer;transition:.15s}
+  .camp:hover{transform:translateY(-2px);border-color:#e0b48f}
+  .camp .emoji{font-size:2.1rem;line-height:1}
+  .camp .info{flex:1;min-width:0}
+  .camp .name{font-weight:700;font-size:1.05rem}
+  .camp .meta{color:var(--muted);font-size:.85rem}
+  .score{min-width:64px;text-align:center}
+  .score .num{font-size:1.6rem;font-weight:800;line-height:1}
+  .score .of{font-size:.72rem;color:var(--muted)}
+  .g{color:var(--green)} .y{color:var(--yellow)} .r{color:var(--red)} .n{color:#b9ada0}
+  .bar{height:7px;border-radius:99px;background:#f0e7db;overflow:hidden;margin-top:.35rem}
+  .bar>i{display:block;height:100%;border-radius:99px}
+  .review{border-top:1px solid var(--line);padding:.85rem 0}
+  .review:first-of-type{border-top:0}
+  .review .top{display:flex;align-items:center;gap:.6rem}
+  .pill{font-weight:800;border-radius:9px;padding:.15rem .55rem;font-size:.95rem;background:#f5ede1}
+  .review .txt{margin:.35rem 0 0;white-space:pre-wrap}
+  .review .when{color:var(--muted);font-size:.78rem}
+  h2{font-size:1.15rem;margin:1.4rem 0 .7rem}
+  .row{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+  .msg{background:#fdecea;color:#a3271a;border:1px solid #f5c6c0;padding:.6rem .8rem;border-radius:10px;margin:.6rem 0}
+  .ok{background:#e8f6ee;color:#1c6b3f;border-color:#bfe5cf}
+  .tabs{display:flex;gap:.4rem;margin-bottom:1rem}
+  .tabs button{background:#f5ede1;color:var(--muted)}
+  .tabs button.on{background:var(--brand);color:#fff}
+  .stars{display:flex;gap:.25rem;flex-wrap:wrap}
+  .stars button{width:40px;height:40px;padding:0;border-radius:10px;background:#f5ede1;color:var(--muted);font-weight:700}
+  .stars button.on{background:var(--brand);color:#fff}
+  .empty{color:var(--muted);text-align:center;padding:1.4rem}
+  .back{background:transparent;color:var(--brand-dark);padding-right:0}
+  .chip{background:#f5ede1;color:var(--muted);font-size:.85rem;padding:.3rem .8rem;border-radius:99px}
+  .chip.on{background:var(--brand);color:#fff}
+  .facts{display:grid;gap:.55rem}
+  @media(min-width:560px){.facts{grid-template-columns:1fr 1fr}}
+  .fact{display:flex;gap:.5rem;align-items:flex-start;background:#fdf8ef;border:1px solid var(--line);
+        border-radius:12px;padding:.55rem .7rem}
+  .fact .k{color:var(--muted);font-size:.8rem}
+  .fact .v{font-weight:600}
+  .missing{background:#fff8e8;border:1px dashed #e0c08f;color:#8a6520;border-radius:12px;padding:.7rem .9rem;font-size:.9rem}
+  label{display:block;font-size:.85rem;color:var(--muted);margin-bottom:.25rem}
+  .hidden{display:none}
+</style>
+</head>
+<body>
+<header>
+  <span style="font-size:1.6rem">🏕️</span>
+  <h1>דירוג קייטנות · בית עמנואל רמת גן</h1>
+  <span class="spacer"></span>
+  <span class="who" id="who"></span>
+  <button id="adminBtn" class="hidden" onclick="showAdmin()">ניהול קייטנות</button>
+  <button id="outBtn" class="hidden" onclick="logout()">יציאה</button>
+</header>
+<main id="app"></main>
+
+<script>
+const api = async (url, opts={}) => {
+  const t = localStorage.getItem('tok');
+  let r;
+  try{
+    r = await fetch(url, {...opts, headers:{'Content-Type':'application/json',
+          ...(t?{Authorization:'Bearer '+t}:{}), ...(opts.headers||{})}});
+  }catch(e){
+    throw new Error('__NOSERVER__');   // אין קשר עם השרת
+  }
+  const d = await r.json().catch(()=>({}));
+  if(!r.ok) throw new Error(d.error || ('שגיאה ' + r.status));
+  return d;
+};
+// אם פתחו את index.html בלחיצה כפולה במקום להריץ את השרת – מסבירים מה לעשות
+function serverHelp(){
+  app.innerHTML = `
+  <div class="card" style="max-width:520px;margin:2rem auto">
+    <div style="font-size:2.4rem;text-align:center">🔌</div>
+    <h2 style="margin-top:.4rem">האתר לא מחובר לשרת</h2>
+    <p>הדף נפתח, אבל השרת שמחזיק את הדירוגים לא רץ – ולכן הכניסה לא עובדת.</p>
+    <p><b>מה לעשות:</b></p>
+    <ol>
+      <li>סוגרים את החלון הזה.</li>
+      <li>נכנסים לתיקיית הפרויקט ולוחצים לחיצה כפולה על
+        <b>start.bat</b> (בווינדוס) או <b>start.command</b> (במאק).</li>
+      <li>נפתח חלון שחור שכותב "הקייטנות רצות" – משאירים אותו פתוח.</li>
+      <li>בדפדפן נכנסים לכתובת <b>http://localhost:3000</b></li>
+    </ol>
+    <p style="color:var(--muted);font-size:.9rem">אי אפשר להשתמש באתר בלחיצה כפולה על
+      index.html – חייבים להריץ את השרת, אחרת אין איפה לשמור את הדירוגים.</p>
+  </div>`;
+}
+const esc = s => String(s??'').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const cls = s => s==null ? 'n' : s>=8 ? 'g' : s>=5 ? 'y' : 'r';
+const col = s => s==null ? '#d8cec2' : s>=8 ? 'var(--green)' : s>=5 ? 'var(--yellow)' : 'var(--red)';
+const app = document.getElementById('app');
+let me = null;
+
+function chrome(){
+  document.getElementById('who').textContent = me ? 'שלום, ' + me.name + (me.is_admin?' (מנהל)':'') : '';
+  document.getElementById('outBtn').classList.toggle('hidden', !me);
+  document.getElementById('adminBtn').classList.toggle('hidden', !(me && me.is_admin));
+}
+
+/* ---------- כניסה ---------- */
+let showAdminField = false, authMode = '';   // '' = בחירה | 'login' | 'new'
+const head = `
+  <div style="text-align:center;margin-bottom:.3rem">
+    <div style="font-size:2.6rem">🏕️</div>
+    <div style="font-size:1.25rem;font-weight:800">דירוג קייטנות</div>
+    <div style="color:var(--muted);font-size:.9rem">קייטנות בית עמנואל, רמת גן</div>
+  </div>`;
+
+function showAuth(err='', keep={}, mode=authMode){
+  chrome();
+  authMode = mode;
+
+  // מסך ראשון: בוחרים אם כבר יש משתמש או שנרשמים עכשיו
+  if(!mode){
+    app.innerHTML = `
+    <div class="card" style="max-width:430px;margin:2rem auto">
+      ${head}
+      <p style="color:var(--muted);font-size:.9rem;text-align:center;margin:.8rem 0 1rem">
+        כדי לדרג קייטנות ולכתוב עליהן צריך משתמש. מה מתאים לך?</p>
+      <div class="grid">
+        <button onclick="showAuth('',{}, 'login')">🔑 כבר יש לי משתמש</button>
+        <button class="ghost" onclick="showAuth('',{}, 'new')" style="padding:.7rem">✨ אני חדש כאן – פתיחת משתמש</button>
+      </div>
+    </div>`;
+    return;
+  }
+
+  const isNew = mode === 'new';
+  app.innerHTML = `
+  <div class="card" style="max-width:430px;margin:2rem auto">
+    ${head}
+    <div style="text-align:center;font-weight:800;margin:.9rem 0 .2rem;color:var(--brand-dark)">
+      ${isNew ? '✨ פתיחת משתמש חדש' : '🔑 כניסה למשתמש קיים'}</div>
+    <p style="color:var(--muted);font-size:.85rem;text-align:center;margin:.2rem 0 .9rem">
+      ${isNew ? 'ממלאים שם פרטי, שם משפחה וסיסמה. תזכרו את הסיסמה – תצטרכו אותה בפעם הבאה!'
+              : 'ממלאים את אותו שם ואותה סיסמה שאיתם נרשמתם.'}</p>
+    ${err?`<div class="msg">${esc(err)}</div>`:''}
+    <div class="grid two">
+      <div><label>שם פרטי</label><input id="f" value="${esc(keep.firstName||'')}" placeholder="יצחק"></div>
+      <div><label>שם משפחה</label><input id="l" value="${esc(keep.lastName||'')}" placeholder="כהן"></div>
+    </div>
+    <div class="grid" style="margin-top:.6rem">
+      <div><label>סיסמה</label><input id="p" type="password"
+           placeholder="${isNew ? 'בחרו סיסמה, לפחות 4 תווים' : 'הסיסמה שלכם'}"></div>
+      ${showAdminField?`<div><label>קוד מנהל</label><input id="a" placeholder="רק למנהל הקייטנות"></div>`:''}
+      <button onclick="doAuth()">${isNew ? 'פתיחת המשתמש וכניסה' : 'כניסה'}</button>
+    </div>
+    <div class="row" style="margin-top:.8rem;justify-content:space-between">
+      <button class="ghost small" onclick="showAuth('',{}, '')">→ חזרה</button>
+      <button class="ghost small" onclick="showAuth('', {firstName:f.value,lastName:l.value}, '${isNew?'login':'new'}')">
+        ${isNew ? 'כבר יש לי משתמש' : 'אין לי עדיין משתמש'}</button>
+    </div>
+    ${showAdminField?'':`<button class="ghost small" style="margin-top:.5rem"
+        onclick="showAdminField=true;showAuth('',{firstName:f.value,lastName:l.value})">אני מנהל הקייטנות</button>`}
+  </div>`;
+  const fb = document.getElementById('f'), lb = document.getElementById('l'), pb = document.getElementById('p');
+  (keep.firstName ? pb : fb).focus();
+  [fb, lb, pb].forEach(el => el.addEventListener('keydown', e => { if(e.key==='Enter') doAuth(); }));
+}
+
+async function doAuth(){
+  const firstName = f.value, lastName = l.value, password = p.value,
+        adminCode = document.getElementById('a')?.value || '';
+  const url = authMode === 'new' ? '/api/register' : '/api/login';
+  try{
+    const d = await api(url, {method:'POST', body: JSON.stringify({firstName, lastName, password, adminCode})});
+    localStorage.setItem('tok', d.token); me = d.user; showCamps();
+  }catch(e){
+    if(e.message === '__NOSERVER__') return serverHelp();
+    showAuth(e.message, {firstName, lastName});
+  }
+}
+async function logout(){ try{ await api('/api/logout',{method:'POST'}); }catch{} localStorage.removeItem('tok'); me=null; authMode=''; showAdminField=false; showAuth('',{},''); }
+
+/* ---------- רשימת הקייטנות ---------- */
+let allCamps = [], filterCat = '';
+const campText = c => [c.name,c.organizer,c.description,c.category,c.place,c.address,c.ages,c.grades].join(' ');
+
+async function showCamps(q='', cat=filterCat){
+  chrome();
+  filterCat = cat;
+  if(!allCamps.length || (!q && cat===filterCat)) allCamps = await api('/api/camps');
+  const cats = [...new Set(allCamps.map(c=>c.category).filter(Boolean))];
+  const camps = allCamps.filter(c => campText(c).includes(q) && (!cat || c.category===cat));
+  app.innerHTML = `
+    <div class="card" style="margin-bottom:1rem">
+      <div style="font-size:1.2rem;font-weight:800">שלום ${esc(me.name)} 👋</div>
+      <p style="margin:.3rem 0 .8rem;color:var(--muted)">
+        כל הקייטנות של בית עמנואל רמת גן. לוחצים על קייטנה כדי לראות את כל הפרטים שלה,
+        לקרוא מה כתבו עליה ולתת ציון. אפשר תמיד לחזור לכאן ולהיכנס לקייטנה אחרת.</p>
+      <input id="q" placeholder="🔍 חיפוש קייטנה" value="${esc(q)}" oninput="showCamps(this.value)">
+      ${cats.length?`<div class="row" style="margin-top:.7rem">
+        <button class="chip ${cat?'':'on'}" onclick="showCamps('','')">הכול</button>
+        ${cats.map(x=>`<button class="chip ${cat===x?'on':''}" onclick="showCamps('','${esc(x)}')">${esc(x)}</button>`).join('')}
+      </div>`:''}
+    </div>
+    <h2 style="margin-top:.2rem">${cat?esc(cat):'כל הקייטנות'} (${camps.length})</h2>
+    <div class="grid">${camps.length?camps.map(c=>`
+      <div class="card camp" onclick="openCamp(${c.id})">
+        <div class="emoji">${esc(c.emoji||'🏕️')}</div>
+        <div class="info">
+          <div class="name">${esc(c.name)}</div>
+          <div class="meta">${[c.ages||c.grades, c.dates, c.place].filter(Boolean).map(esc).join(' · ')||esc(c.category||'')}</div>
+          <div class="bar"><i style="width:${(c.avg_score??0)*10}%;background:${col(c.avg_score)}"></i></div>
+          <div class="meta">${c.review_count} דירוגים · ${c.message_count} הודעות</div>
+        </div>
+        <div class="score">
+          <div class="num ${cls(c.avg_score)}">${c.avg_score ?? '–'}</div>
+          <div class="of">מתוך 10</div>
+        </div>
+      </div>`).join(''):'<div class="card empty">לא נמצאו קייטנות.</div>'}
+    </div>`;
+  const box = document.getElementById('q');
+  if(q){ box.focus(); box.setSelectionRange(q.length, q.length); }
+}
+
+/* ---------- פרטי הקייטנה ---------- */
+const FIELDS = [
+  ['place',   '📍', 'מקום'],        ['address', '🗺️', 'כתובת'],
+  ['dates',   '📅', 'תאריכים'],     ['hours',   '🕘', 'שעות'],
+  ['ages',    '🎂', 'גילאים'],      ['grades',  '🎒', 'כיתות'],
+  ['price',   '💰', 'מחיר'],        ['phone',   '📞', 'טלפון'],
+  ['includes','🎒', 'מה כלול'],     ['bring',   '🎽', 'מה להביא'],
+  ['notes',   'ℹ️', 'הערות'],
+];
+function campFacts(c){
+  const rows = FIELDS.filter(([k]) => (c[k]||'').trim())
+    .map(([k,icon,label]) => `<div class="fact"><span>${icon}</span>
+        <span><span class="k">${label}</span><br><span class="v"${['hours','phone'].includes(k)?' dir="ltr" style="display:inline-block"':''}>${esc(c[k])}</span></span></div>`).join('');
+  const link = (c.link||'').trim()
+    ? `<p style="margin:.8rem 0 0"><a href="${esc(c.link)}" target="_blank" rel="noopener">🔗 לדף ההרשמה הרשמי</a></p>` : '';
+  if(!rows) return `<div class="missing">הפרטים המלאים של הקייטנה הזאת (מקום, שעות, תאריכים ומחיר)
+      עוד לא מולאו. ${me.is_admin?'אפשר למלא אותם בכפתור למטה.':'המנהל ישלים אותם בקרוב.'}</div>${link}`;
+  return `<div class="facts">${rows}</div>${link}`;
+}
+
+/* ---------- עמוד קייטנה ---------- */
+let pick = null;
+function openCamp(id){ pick = null; showCamp(id); }
+async function showCamp(id, msg=''){
+  const c = await api('/api/camps/'+id);
+  const mine = c.reviews.find(r => r.user_id === me.id);
+  pick = pick ?? (mine ? mine.score : null);
+  const draft = document.getElementById('txt')?.value || '';
+  app.innerHTML = `
+  <button class="back" onclick="pick=null;showCamps()">→ חזרה לדף הבית</button>
+  <div class="card" style="margin-top:.5rem">
+    <div class="row" style="align-items:flex-start">
+      <div style="font-size:2.6rem">${esc(c.emoji||'🏕️')}</div>
+      <div style="flex:1;min-width:200px">
+        <div style="font-size:1.35rem;font-weight:800">${esc(c.name)}</div>
+        <div class="meta" style="color:var(--muted)">${[c.category,c.organizer].filter(Boolean).map(esc).join(' · ')}</div>
+        <p style="margin:.5rem 0 0">${esc(c.description)}</p>
+      </div>
+      <div class="score">
+        <div class="num ${cls(c.avg_score)}" style="font-size:2.2rem">${c.avg_score ?? '–'}</div>
+        <div class="of">${c.review_count} דירוגים · ${c.messages.length} הודעות</div>
+      </div>
+    </div>
+  </div>
+
+  ${msg?`<div class="msg ok">${esc(msg)}</div>`:''}
+
+  <h2>פרטי הקייטנה</h2>
+  <div class="card">
+    ${campFacts(c)}
+    ${me.is_admin?`<div class="row" style="margin-top:.9rem">
+      <button class="ghost small" onclick="editCamp(${c.id})">✏️ עריכת פרטי הקייטנה</button></div>`:''}
+  </div>
+
+  <h2>הציון שלי לקייטנה</h2>
+  <div class="card">
+    <div class="stars">${Array.from({length:11},(_,i)=>
+      `<button class="${pick===i?'on':''}" onclick="pick=${i};showCamp(${id})">${i}</button>`).join('')}</div>
+    <div class="row" style="margin-top:.9rem">
+      <button onclick="sendReview(${id})">${mine?'עדכון הציון':'שמירת הציון'}</button>
+      ${mine?`<button class="ghost" onclick="delReview(${mine.id},${id})">ביטול הציון שלי</button>`:''}
+      <span class="when" style="color:var(--muted)">${mine?`נתת ${mine.score}/10`:'עוד לא נתת ציון'}</span>
+    </div>
+  </div>
+
+  <h2>כתיבת הודעה על הקייטנה</h2>
+  <div class="card">
+    <textarea id="txt" rows="3" placeholder="למשל: הקייטנה גרועה, לא ללכת">${esc(draft)}</textarea>
+    <div class="row" style="margin-top:.7rem">
+      <button onclick="sendMessage(${id})">שליחת הודעה</button>
+      <span class="when" style="color:var(--muted)">אפשר לכתוב כמה הודעות שרוצים</span>
+    </div>
+  </div>
+
+  <h2>ההודעות על הקייטנה (${c.messages.length})</h2>
+  <div class="card">
+    ${c.messages.length ? c.messages.map(m=>`
+      <div class="review">
+        <div class="top">
+          <b>${esc(m.user_name)}</b>
+          ${m.score!==null?`<span class="pill ${cls(m.score)}">נתן ${m.score}/10</span>`:''}
+          <span class="when">${esc(m.created_at)}</span>
+          <span style="flex:1"></span>
+          ${(m.user_id===me.id||me.is_admin)?`<button class="ghost small" onclick="delMessage(${m.id},${id})">מחיקה</button>`:''}
+        </div>
+        <p class="txt">${esc(m.text)}</p>
+      </div>`).join('') : '<div class="empty">אף אחד עוד לא כתב. תהיה הראשון!</div>'}
+  </div>
+
+  <h2>כל הציונים (${c.reviews.length})</h2>
+  <div class="card">
+    ${c.reviews.length ? `<div class="row">${c.reviews.map(r=>`
+      <span class="pill ${cls(r.score)}">${esc(r.user_name)} · ${r.score}/10</span>`).join('')}</div>`
+      : '<div class="empty">עוד אין ציונים לקייטנה הזאת.</div>'}
+  </div>`;
+}
+async function sendReview(id){
+  if(pick===null) return alert('בחר ציון בין 0 ל-10');
+  try{
+    await api(`/api/camps/${id}/reviews`,{method:'POST', body: JSON.stringify({score: pick})});
+    showCamp(id, 'הציון נשמר. תודה!');
+  }catch(e){ alert(e.message); }
+}
+async function delReview(rid, cid){
+  if(!confirm('לבטל את הציון שלך?')) return;
+  await api('/api/reviews/'+rid, {method:'DELETE'});
+  pick = null; showCamp(cid);
+}
+async function sendMessage(id){
+  const t = document.getElementById('txt');
+  if(!t.value.trim()) return alert('צריך לכתוב משהו');
+  try{
+    await api(`/api/camps/${id}/messages`,{method:'POST', body: JSON.stringify({text: t.value})});
+    t.value = ''; showCamp(id, 'ההודעה נשלחה.');
+  }catch(e){ alert(e.message); }
+}
+async function delMessage(mid, cid){
+  if(!confirm('למחוק את ההודעה?')) return;
+  await api('/api/messages/'+mid, {method:'DELETE'});
+  showCamp(cid);
+}
+
+/* ---------- ניהול ---------- */
+const FORM = [
+  ['name','שם הקייטנה','קייטנת שחמט'], ['emoji','אימוג׳י','♟️'],
+  ['category','קטגוריה','קייטנה מקצועית'], ['organizer','מי מארגן','מפעלי בית עמנואל, רמת גן'],
+  ['description','תיאור','מה עושים בקייטנה'],
+  ['place','מקום','מרכז קהילתי כרמל'], ['address','כתובת','רח׳ ... , רמת גן'],
+  ['dates','תאריכים','1–14 ביולי'], ['hours','שעות','08:00–13:00'],
+  ['ages','גילאים','6–12'], ['grades','כיתות','א׳–ו׳'],
+  ['price','מחיר','₪ ... למחזור'], ['phone','טלפון','03-...'],
+  ['includes','מה כלול','ארוחת עשר, חולצה'], ['bring','מה להביא','כובע ובקבוק מים'],
+  ['link','קישור להרשמה','https://...'], ['notes','הערות','']
+];
+const formHtml = (c={}) => FORM.map(([k,label,ph]) =>
+  `<div><label>${label}</label><input id="f_${k}" value="${esc(c[k]||'')}" placeholder="${esc(ph)}"></div>`).join('');
+const formValues = () => Object.fromEntries(FORM.map(([k]) => [k, document.getElementById('f_'+k).value]));
+
+async function showAdmin(msg=''){
+  const [camps, feed] = await Promise.all([api('/api/camps'), api('/api/admin/feed')]);
+  const done = camps.filter(c => c.place || c.hours || c.dates || c.price).length;
+  app.innerHTML = `
+  <button class="back" onclick="showCamps()">→ חזרה לדף הבית</button>
+  ${msg?`<div class="msg ok">${esc(msg)}</div>`:''}
+
+  <div class="card" style="margin-bottom:.5rem">
+    <b>מסך ניהול</b>
+    <div class="meta" style="color:var(--muted);font-size:.88rem">
+      ${camps.length} קייטנות · ${feed.reviews.length} ציונים · ${feed.messages.length} הודעות · ${feed.users} משתמשים.
+      כאן אפשר להוסיף ולמחוק קייטנות, לערוך את הפרטים שלהן, ולמחוק הודעות או ציונים לא ראויים.</div>
+  </div>
+
+  <h2>הודעות אחרונות (${feed.messages.length})</h2>
+  <div class="card">
+    ${feed.messages.length ? feed.messages.map(x=>`
+      <div class="review">
+        <div class="top">
+          <b>${esc(x.user_name)}</b>
+          <span class="pill">${esc(x.camp_name)}</span>
+          <span class="when">${esc(x.created_at)}</span>
+          <span style="flex:1"></span>
+          <button class="ghost small" onclick="adminDelMessage(${x.id})">מחיקה</button>
+        </div>
+        <p class="txt">${esc(x.text)}</p>
+      </div>`).join('') : '<div class="empty">עוד לא נכתבו הודעות.</div>'}
+  </div>
+
+  <h2>ציונים אחרונים (${feed.reviews.length})</h2>
+  <div class="card">
+    ${feed.reviews.length ? feed.reviews.map(x=>`
+      <div class="review">
+        <div class="top">
+          <span class="pill ${cls(x.score)}">${x.score}/10</span>
+          <b>${esc(x.user_name)}</b>
+          <span class="when">${esc(x.camp_name)} · ${esc(x.created_at)}</span>
+          <span style="flex:1"></span>
+          <button class="ghost small" onclick="adminDelReview(${x.id})">מחיקה</button>
+        </div>
+      </div>`).join('') : '<div class="empty">עוד אין ציונים.</div>'}
+  </div>
+
+  <h2>הקייטנות ברשימה (${camps.length})</h2>
+  <p style="color:var(--muted);margin-top:-.4rem">מולאו פרטים ל-${done} מתוך ${camps.length} קייטנות.</p>
+  <div class="grid">${camps.map(c=>`
+    <div class="card row">
+      <span style="font-size:1.5rem">${esc(c.emoji||'🏕️')}</span>
+      <div style="flex:1;min-width:150px">
+        <b>${esc(c.name)}</b>
+        <div class="meta" style="color:var(--muted);font-size:.8rem">
+          ${[c.place,c.dates,c.hours].filter(Boolean).map(esc).join(' · ') || '⚠️ חסרים פרטים'}</div>
+      </div>
+      <button class="ghost small" onclick="editCamp(${c.id})">עריכה</button>
+      <button class="ghost small" onclick="delCamp(${c.id},'${esc(c.name).replace(/'/g,"\\'")}')">מחיקה</button>
+    </div>`).join('')}</div>
+
+  <h2>הוספת קייטנה חדשה</h2>
+  <div class="card grid two">
+    ${formHtml()}
+    <div><button onclick="addCamp()">הוספה</button></div>
+  </div>`;
+}
+
+async function editCamp(id){
+  const c = await api('/api/camps/'+id);
+  app.innerHTML = `
+  <button class="back" onclick="showAdmin()">→ חזרה לרשימת הקייטנות</button>
+  <h2>עריכת ${esc(c.name)}</h2>
+  <div class="card grid two">
+    ${formHtml(c)}
+    <div class="row">
+      <button onclick="saveCamp(${id})">שמירה</button>
+      <button class="ghost" onclick="showAdmin()">ביטול</button>
+    </div>
+  </div>`;
+}
+async function saveCamp(id){
+  try{
+    await api('/api/camps/'+id, {method:'PUT', body: JSON.stringify(formValues())});
+    allCamps = []; showAdmin('הפרטים נשמרו.');
+  }catch(e){ alert(e.message); }
+}
+async function addCamp(){
+  try{
+    await api('/api/camps',{method:'POST',body:JSON.stringify(formValues())});
+    allCamps = []; showAdmin('הקייטנה נוספה.');
+  }catch(e){ alert(e.message); }
+}
+async function delCamp(id,name){
+  if(!confirm('למחוק את "'+name+'" ואת כל הדירוגים שלה?')) return;
+  await api('/api/camps/'+id,{method:'DELETE'}); allCamps = []; showAdmin('הקייטנה נמחקה.');
+}
+async function adminDelMessage(id){
+  if(!confirm('למחוק את ההודעה הזאת?')) return;
+  await api('/api/messages/'+id,{method:'DELETE'}); showAdmin('ההודעה נמחקה.');
+}
+async function adminDelReview(id){
+  if(!confirm('למחוק את הציון הזה?')) return;
+  await api('/api/reviews/'+id,{method:'DELETE'}); allCamps = []; showAdmin('הציון נמחק.');
+}
+
+/* ---------- התחלה ---------- */
+(async () => {
+  if(location.protocol === 'file:') return serverHelp();   // נפתח בלחיצה כפולה
+  try{ await api('/api/camps'); }                          // בדיקה שהשרת עונה
+  catch(e){ if(e.message === '__NOSERVER__') return serverHelp(); }
+  if(localStorage.getItem('tok')){
+    try{ me = await api('/api/me'); return showCamps(); }
+    catch{ localStorage.removeItem('tok'); }
+  }
+  showAuth();
+})();
+</script>
+</body>
+</html>
